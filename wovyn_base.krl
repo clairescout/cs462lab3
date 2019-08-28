@@ -29,7 +29,7 @@ ruleset wovyn_base{
     pre {
       temperature = event:attr("temperature").decode()[0]{"temperatureF"}
     }
-    if temperature > tempearture_threshold then
+    if temperature > temperature_threshold then
       send_directive("Temperature above threshold")
     fired {
       raise wovyn event "threshold_violation"
