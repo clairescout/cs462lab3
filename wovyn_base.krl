@@ -7,7 +7,7 @@ ruleset wovyn_base{
     __testing = { "queries": [ { "name": "__testing" } ],
                   "events": [ { "domain": "wovyn", "type": "heartbeat",
                               "attrs": [ "temp", "baro" ] } ] }
-    temperature_threshold = 72
+    temperature_threshold = 75
     send_violation_phonenumber = 8017353755
     from_phonenumber = 8015152998
   }
@@ -16,10 +16,8 @@ ruleset wovyn_base{
     select when wovyn heartbeat where event:attr("genericThing") != null
     pre {
       genericThing = event:attr("genericThing").decode()
-      exists = (genericThing != null)
     }
-    if (exists) then
-      send_directive("GenericThing exists")
+    send_directive("GenericThing exists")
     fired {
       raise wovyn event "new_temperature_reading"
         attributes {"temperature": genericThing{"data"}{"temperature"}, "timestamp": time:now()}
